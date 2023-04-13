@@ -169,6 +169,10 @@ public class UserServlet extends BaseServlet {
      */
     public String logOut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("userInfo", "");
+        cookie.setPath(req.getContextPath());
+        cookie.setMaxAge(0);
+        resp.addCookie(cookie);
         return "redirect:/login.jsp";
     }
 
