@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Project : Xiaomi Mall
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 public class Goods {
     private Integer id;
     private String name;
-    private LocalDate date;
+    private Date pubdate;
     private String picture;
     private BigDecimal price;
     private Integer star;

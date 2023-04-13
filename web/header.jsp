@@ -10,7 +10,6 @@
 				for(var i in data){
 					var a = $("<a href='${pageContext.request.contextPath}/goodsservlet?method=getGoodsListByTypeId&typeId="+data[i].id+"'>"+data[i].name+"</a>");
 					$("#goodsType").append(a);
-					
 				}
 			},
 			dataType:"json",
@@ -20,7 +19,7 @@
 		})
 	})
 </script>
-		
+
  <div id="top">
     	<div id="topdiv">
             <span>
@@ -58,7 +57,7 @@
 			<!-- 根据ajax 回调函数 填写数据 到此id中 -->
         </p>
        <form class="form-inline pull-right" style="margin-top: 40px;margin-right: 10px;">
-		
+
 		  <div class="form-group">
 		    <input type="text" class="form-control" style="width: 400px"  placeholder="搜索一下好东西...">
 		  </div>

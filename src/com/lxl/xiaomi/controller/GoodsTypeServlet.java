@@ -1,5 +1,6 @@
 package com.lxl.xiaomi.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.lxl.xiaomi.entity.GoodsType;
 import com.lxl.xiaomi.service.GoodsTypeService;
 import com.lxl.xiaomi.service.impl.GoodsTypeServiceImpl;
@@ -7,6 +8,7 @@ import com.lxl.xiaomi.service.impl.GoodsTypeServiceImpl;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,8 +24,10 @@ public class GoodsTypeServlet extends BaseServlet {
 
     GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
 
-    public List<GoodsType> goodstypelist(HttpServletRequest req, HttpServletResponse resp) {
-        return goodsTypeService.queryList();
+    public void goodstypelist(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        List<GoodsType> goodsTypes = goodsTypeService.queryList();
+        String s = JSON.toJSONString(goodsTypes);
+        resp.getWriter().write(s);
     }
 
 }

@@ -185,7 +185,7 @@ public class UserServlet extends BaseServlet {
      * @throws IOException
      */
     public String getAddress(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        return "redirect:/self_info.jsp";
+        return "redirect:/";
     }
 
 

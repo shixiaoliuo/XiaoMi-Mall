@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Project : Xiaomi Mall
@@ -19,6 +20,6 @@ public class Order {
     private Integer uid;
     private BigDecimal money;
     private String status;
-    private LocalDateTime time;
+    private Date time;
     private Integer aid;
 }
