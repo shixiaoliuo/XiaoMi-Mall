@@ -4,16 +4,14 @@ import cn.dsna.util.images.ValidateCode;
 import com.lxl.xiaomi.entity.User;
 import com.lxl.xiaomi.service.UserService;
 import com.lxl.xiaomi.service.impl.UserServiceImpl;
+import com.lxl.xiaomi.utils.Base64Utils;
 import com.lxl.xiaomi.utils.EmailUtils;
 import com.lxl.xiaomi.utils.MD5Utils;
 import com.lxl.xiaomi.utils.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -135,6 +133,7 @@ public class UserServlet extends BaseServlet {
     public String login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String username = req.getParameter("username");
         String password = MD5Utils.md5(req.getParameter("password"));
+        String auto = req.getParameter("auto");
         if (StringUtils.isEmpty(username, password)) {
             req.getSession().setAttribute("msg", "登陆失败");
             return "redirect:/login.jsp";
@@ -142,6 +141,17 @@ public class UserServlet extends BaseServlet {
         User user = userService.login(username, password);
         if (user != null) {
             req.getSession().setAttribute("user", user);
+            if (auto != null) {
+                String userInfo = username + "#" + password;
+//                for (int i = 0; i < 20; i++) {
+                userInfo = Base64Utils.encode(userInfo);
+//                }
+                Cookie cookie = new Cookie("userInfo", userInfo);
+                cookie.setPath(req.getContextPath());
+                cookie.setMaxAge(60 * 60 * 24 * 14);
+                cookie.setHttpOnly(true);
+                resp.addCookie(cookie);
+            }
             return "redirect:/index.jsp";
         } else {
             req.getSession().setAttribute("msg", "登陆失败");
@@ -149,9 +159,30 @@ public class UserServlet extends BaseServlet {
         }
     }
 
+    /**
+     * 登出
+     *
+     * @param req
+     * @param resp
+     * @return
+     * @throws IOException
+     */
     public String logOut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("user");
         return "redirect:/login.jsp";
     }
+
+    /**
+     * 地址管理
+     *
+     * @param req
+     * @param resp
+     * @return
+     * @throws IOException
+     */
+    public String getAddress(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        return "redirect:/self_info.jsp";
+    }
+
 
 }
