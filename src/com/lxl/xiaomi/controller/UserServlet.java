@@ -64,7 +64,7 @@ public class UserServlet extends BaseServlet {
     }
 
     /**
-     * 验证码
+     * 检查是否存在该用户名
      *
      * @param req
      * @param resp
@@ -81,6 +81,13 @@ public class UserServlet extends BaseServlet {
         }
     }
 
+    /**
+     * 显示验证码
+     *
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
     public void code(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         //1 创建ValidateCode对象
         //参数1(width):宽度
@@ -98,6 +105,13 @@ public class UserServlet extends BaseServlet {
         validateCode.write(resp.getOutputStream());
     }
 
+    /**
+     * 校验验证码
+     *
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
     public void checkCode(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String code = (String) req.getSession().getAttribute("code");
         String code1 = req.getParameter("code");
@@ -108,6 +122,14 @@ public class UserServlet extends BaseServlet {
         }
     }
 
+    /**
+     * 登录
+     *
+     * @param req
+     * @param resp
+     * @return
+     * @throws IOException
+     */
     public String login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String username = req.getParameter("username");
         String password = MD5Utils.md5(req.getParameter("password"));
@@ -124,4 +146,10 @@ public class UserServlet extends BaseServlet {
             return "redirect:/login.jsp";
         }
     }
+
+    public String logOut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.getSession().removeAttribute("user");
+        return "redirect:/login.jsp";
+    }
+
 }
