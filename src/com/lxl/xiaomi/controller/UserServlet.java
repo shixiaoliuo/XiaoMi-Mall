@@ -4,6 +4,7 @@ import cn.dsna.util.images.ValidateCode;
 import com.lxl.xiaomi.entity.User;
 import com.lxl.xiaomi.service.UserService;
 import com.lxl.xiaomi.service.impl.UserServiceImpl;
+import com.lxl.xiaomi.utils.EmailUtils;
 import com.lxl.xiaomi.utils.MD5Utils;
 import com.lxl.xiaomi.utils.StringUtils;
 
@@ -55,6 +56,7 @@ public class UserServlet extends BaseServlet {
         if (userService.add(user)) {
             req.getSession().setAttribute("registerMsg", "注册成功");
 //            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            EmailUtils.sendEmail(user);
             return "redirect:/login.jsp";
         } else {
             req.getSession().setAttribute("registerMsg", "注册失败");
