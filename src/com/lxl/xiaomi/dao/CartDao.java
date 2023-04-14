@@ -2,6 +2,7 @@ package com.lxl.xiaomi.dao;
 
 import com.lxl.xiaomi.entity.Cart;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -19,7 +20,18 @@ public interface CartDao {
 
     int insert(Cart cart);
 
-    Cart selectOne(Integer id,Integer pid);
+    Cart selectOne(Integer id, Integer pid);
 
-    int update(Cart cart);
+//    int updateIncrease(Cart cart);
+
+    int updateDecrease(BigDecimal price,Integer id, Integer goodsId);
+
+    int deleteGoods( Integer id, Integer goodsId);
+
+    int updateIncrease(BigDecimal price,Integer id, Integer pid);
+
+    int deleteById(Integer id);
+
+    int updateIncrease(Cart cart1);
+
 }

@@ -1,8 +1,6 @@
 package com.lxl.xiaomi.controller;
 
-import com.lxl.xiaomi.entity.Cart;
 import com.lxl.xiaomi.entity.CartDto;
-import com.lxl.xiaomi.entity.GoodsDto;
 import com.lxl.xiaomi.entity.User;
 import com.lxl.xiaomi.service.CartDtoService;
 import com.lxl.xiaomi.service.CartService;
@@ -15,9 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Project : Xiaomi Mall
@@ -35,7 +31,7 @@ public class CartServlet extends BaseServlet {
         User user = (User) req.getSession().getAttribute("user");
         Integer id = user.getId();
         List<CartDto> cart = cartDtoService.queryMap(id);
-        System.out.println(cart);
+//        System.out.println(cart);
         req.getSession().setAttribute("cart", cart);
         return "redirect:/cart.jsp";
     }
@@ -52,5 +48,29 @@ public class CartServlet extends BaseServlet {
             return "redirect:/cartSuccess.jsp";
         }
         return "redirect:/goodsDetail.jsp";
+    }
+
+    //    addCartAjax&goodsId=6&num=0
+    public void addCartAjax(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String goodId = req.getParameter("goodsId");
+        String num = req.getParameter("num");
+        User user = (User) req.getSession().getAttribute("user");
+        Integer id = user.getId();
+        if (!StringUtils.isEmpty(goodId) && !StringUtils.isEmpty("num")) {
+            if ("-1".equals(num)) {
+                //num--
+                cartDtoService.removeNum(id, Integer.valueOf(goodId), Integer.valueOf(num));
+            } else if ("0".equals(num)) {
+                cartDtoService.remove(id, Integer.valueOf(goodId));
+            } else if ("1".equals(num)) {
+                cartDtoService.addNum(id, Integer.valueOf(goodId));
+            }
+        }
+    }
+
+    public void clearCartAjax(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        User user = (User) req.getSession().getAttribute("user");
+        Integer id = user.getId();
+        cartDtoService.clearAll(id);
     }
 }

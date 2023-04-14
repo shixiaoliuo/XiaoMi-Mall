@@ -14,4 +14,12 @@ import java.util.List;
  */
 public interface CartDtoService {
     List<CartDto> queryMap(Integer id);
+
+    boolean removeNum(Integer id, Integer goodsId, Integer num);
+
+    boolean remove(Integer id, Integer goodsId);
+
+    boolean addNum(Integer id, Integer goodsId);
+
+    boolean clearAll(Integer id);
 }

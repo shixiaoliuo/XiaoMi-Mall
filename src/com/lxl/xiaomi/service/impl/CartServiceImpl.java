@@ -31,7 +31,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public boolean add(Integer id, Integer goodsId, Integer number) {
         Goods goods = goodsDao.selectById(goodsId);
-        BigDecimal price = goods.getPrice().multiply(new BigDecimal(String.valueOf(number)));
+        BigDecimal price = goods.getPrice();
         Cart cart = new Cart(id, goodsId, number, price);
         Cart cart1 = cartDao.selectOne(id, goodsId);
         if (cart1 == null) {
@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService {
                 return true;
             }
         } else {
-            int updateCount = cartDao.update(cart);
+            int updateCount = cartDao.updateIncrease(cart);
             if (updateCount > 0) {
                 return true;
             }

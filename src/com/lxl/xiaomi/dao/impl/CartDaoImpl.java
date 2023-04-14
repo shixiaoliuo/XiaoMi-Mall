@@ -7,6 +7,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -64,13 +65,59 @@ public class CartDaoImpl implements CartDao {
         }
     }
 
+
     @Override
-    public int update(Cart cart) {
+    public int updateIncrease(BigDecimal price, Integer id, Integer pid) {
         QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
-        String sql = "update tb_cart set num=num+1 where id=? and  pid=?";
-        Object[] params = {cart.getId(), cart.getPid()};
+        String sql = "update tb_cart set num=num+1 ,money=money+? where id=? and  pid=?";
+        try {
+            return queryRunner.update(sql, price, id, pid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "delete from tb_cart where id=?";
+        try {
+            return queryRunner.update(sql, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int updateIncrease(Cart cart) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "update tb_cart set num=num+1, money=money+? where id=? and  pid=?";
+        Object[] params = {cart.getMoney(), cart.getId(), cart.getPid()};
         try {
             return queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    public int updateDecrease(BigDecimal price, Integer id, Integer goodsId) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "update tb_cart set num=num-1 , money=money-? where id=? and  pid=?";
+        try {
+            return queryRunner.update(sql, price, id, goodsId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int deleteGoods(Integer id, Integer goodsId) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "delete  from tb_cart where id=? and  pid=?;";
+        try {
+            return queryRunner.update(sql, id, goodsId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

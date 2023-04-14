@@ -37,4 +37,60 @@ public class CartDtoServiceImpl implements CartDtoService {
         }
         return cartDtos;
     }
+
+    @Override
+    public boolean removeNum(Integer id, Integer goodsId, Integer num) {
+        Cart cart = cartDao.selectOne(id, goodsId);
+        Goods goods = goodsDao.selectById(goodsId);
+        if (cart != null) {
+            Integer num1 = cart.getNum();
+            if (num1 > 1) {
+                int i = cartDao.updateDecrease(goods.getPrice(),id, goodsId);
+                if (i > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                int i = cartDao.deleteGoods(id, goodsId);
+                if (i > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean remove(Integer id, Integer goodsId) {
+        int i = cartDao.deleteGoods(id, goodsId);
+        if (i > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean addNum(Integer id, Integer goodsId) {
+        Goods goods = goodsDao.selectById(goodsId);
+        int i = cartDao.updateIncrease(goods.getPrice(),id, goodsId);
+        if (i > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean clearAll(Integer id) {
+        List<Cart> carts = cartDao.selectById(id);
+        if (carts != null) {
+            cartDao.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
