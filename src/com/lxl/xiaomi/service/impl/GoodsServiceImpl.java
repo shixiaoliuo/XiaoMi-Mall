@@ -6,6 +6,7 @@ import com.lxl.xiaomi.entity.Goods;
 import com.lxl.xiaomi.entity.PageBean;
 import com.lxl.xiaomi.service.GoodsService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ import java.util.List;
  */
 public class GoodsServiceImpl implements GoodsService {
     GoodsDao goodsDao = new GoodsDaoImpl();
+
     @Override
     public List<Goods> queryByTypeId(String typeId) {
         return goodsDao.selectByTypeId();
@@ -25,13 +27,13 @@ public class GoodsServiceImpl implements GoodsService {
 
 
     @Override
-    public PageBean<Goods> queryPageByTypeId(int pn, int ps, String typeId) {
-        long totalSize = goodsDao.selectCount(typeId);
-        List<Goods> data = goodsDao.selectPage((pn - 1) * ps, ps,typeId);
+    public PageBean<Goods> queryPageByTypeId(int pn, int ps, String where, ArrayList<Object> params) {
+        long totalSize = goodsDao.selectCount(where, params);
+        params.add((pn - 1) * ps);
+        params.add(ps);
+        List<Goods> data = goodsDao.selectPage(where, params);
 
-        PageBean<Goods> pageBean = new PageBean<>(pn, ps, totalSize, data);
-        pageBean.setStartPage(pn);
-        return pageBean;
+        return new PageBean<>(pn, ps, totalSize, data);
     }
 
     @Override

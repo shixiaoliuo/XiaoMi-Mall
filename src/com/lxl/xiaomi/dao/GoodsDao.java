@@ -2,6 +2,7 @@ package com.lxl.xiaomi.dao;
 
 import com.lxl.xiaomi.entity.Goods;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,9 +16,9 @@ import java.util.List;
 public interface GoodsDao {
     List<Goods> selectByTypeId();
 
-    List<Goods> selectPage(int pn, int ps,String typeId);
+    List<Goods> selectPage( String where, ArrayList<Object> params);
 
-    long selectCount(String typeId);
+    long selectCount(String where, ArrayList<Object> params);
 
     Goods selectById(String id);
 }

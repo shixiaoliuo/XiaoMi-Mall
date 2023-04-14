@@ -35,5 +35,23 @@ public class PageBean<T> {
         this.totalSize = totalSize;
         this.pageCount = (totalSize % pageSize == 0 ? (int) (totalSize / pageSize) : (int) (totalSize / pageSize) + 1);
         this.data = data;
+
+        this.startPage = this.pageNum - 4;
+        this.endPage = this.pageNum + 3;
+
+        if (this.pageNum < 5) {
+            this.startPage = 1;
+            this.endPage = 8;
+        }
+
+        if (this.pageNum > this.pageCount - 3) {
+            this.startPage = this.pageCount - 7;
+            this.endPage = this.pageCount;
+        }
+
+        if (this.pageCount < 8) {
+            this.startPage = 1;
+            this.endPage = this.pageCount;
+        }
     }
 }

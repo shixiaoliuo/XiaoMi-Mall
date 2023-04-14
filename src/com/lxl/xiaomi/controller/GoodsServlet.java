@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
 
 /**
  * Project : Xiaomi Mall
@@ -32,6 +34,7 @@ public class GoodsServlet extends BaseServlet {
 
     public String getGoodsListByTypeId(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String typeId = req.getParameter("typeId");
+        String name = req.getParameter("name");
         req.getSession().setAttribute("typeId", typeId);
 //        resp.setContentType("application/json;charset=utf-8");
 //        List<Goods> goods = goodsService.queryByTypeId(typeId);
@@ -41,7 +44,7 @@ public class GoodsServlet extends BaseServlet {
         String pageSize = req.getParameter("pageSize");
 
         int pn = 1;//默认值
-        int ps = 10;//默认值
+        int ps = 18;//默认值
         try {
             if (!StringUtils.isEmpty(pageNum)) {
                 pn = Integer.parseInt(pageNum);
@@ -59,8 +62,26 @@ public class GoodsServlet extends BaseServlet {
             e.printStackTrace();
         }
 
-        PageBean<Goods> pageBean = goodsService.queryPageByTypeId(pn, ps, typeId);
-        pageBean.setStartPage(pn);
+        StringBuilder where = new StringBuilder();
+        ArrayList<Object> params = new ArrayList<>();
+        if (!StringUtils.isEmpty(typeId)) {
+            try {
+                int tid = Integer.parseInt(typeId);
+                where.append("and typeid=?");
+                params.add(tid);
+            } catch (NumberFormatException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (!StringUtils.isEmpty(name)) {
+            where.append("and name like ?");
+            params.add("%" + name + "%");
+        }
+        if (where.length() > 0) {
+            where.replace(0, 3, "where");
+        }
+
+        PageBean<Goods> pageBean = goodsService.queryPageByTypeId(pn, ps, where.toString(),params);
 
 
 //        resp.getWriter().write(JSON.toJSONString(pageBean));

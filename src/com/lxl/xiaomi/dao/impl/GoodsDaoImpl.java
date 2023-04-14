@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,11 +33,11 @@ public class GoodsDaoImpl implements GoodsDao {
     }
 
     @Override
-    public long selectCount(String typeId) {
+    public long selectCount(String where, ArrayList<Object> params) {
         QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
-        String sql = "select count(*) from tb_goods where typeid=?;";
+        String sql = "select count(*) from tb_goods " + where;
         try {
-            return queryRunner.query(sql, new ScalarHandler<>(),typeId);
+            return queryRunner.query(sql, new ScalarHandler<>(), params.toArray());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -47,18 +48,18 @@ public class GoodsDaoImpl implements GoodsDao {
         QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from tb_goods where id=?;";
         try {
-            return queryRunner.query(sql,new BeanHandler<>(Goods.class),id);
+            return queryRunner.query(sql, new BeanHandler<>(Goods.class), id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public List<Goods> selectPage(int pn, int ps,String typeId) {
+    public List<Goods> selectPage( String where, ArrayList<Object> params) {
         QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
-        String sql = "select * from tb_goods where typeid=? limit ?,?;";
+        String sql = "select * from tb_goods " + where + " limit ?,? ";
         try {
-            return queryRunner.query(sql, new BeanListHandler<>(Goods.class),typeId, pn, ps);
+            return queryRunner.query(sql, new BeanListHandler<>(Goods.class), params.toArray());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
