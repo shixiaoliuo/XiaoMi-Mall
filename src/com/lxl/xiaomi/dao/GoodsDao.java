@@ -19,4 +19,5 @@ public interface GoodsDao {
 
     long selectCount(String typeId);
 
+    Goods selectById(String id);
 }

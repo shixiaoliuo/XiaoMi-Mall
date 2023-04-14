@@ -22,4 +22,9 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
     public List<GoodsType> queryList() {
         return goodsTypeDao.selectAll();
     }
+
+    @Override
+    public List<GoodsType> queryListByLevel(int level) {
+        return goodsTypeDao.selectByLevel(level);
+    }
 }

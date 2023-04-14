@@ -14,4 +14,7 @@ import java.util.List;
  */
 public interface GoodsTypeService {
     List<GoodsType> queryList();
+
+    List<GoodsType> queryListByLevel(int i);
+
 }

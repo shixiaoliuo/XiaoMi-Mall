@@ -1,7 +1,10 @@
 package com.lxl.xiaomi.controller;
 
+import com.lxl.xiaomi.dao.impl.GoodsDtoServiceImpl;
 import com.lxl.xiaomi.entity.Goods;
+import com.lxl.xiaomi.entity.GoodsDto;
 import com.lxl.xiaomi.entity.PageBean;
+import com.lxl.xiaomi.service.GoodsDtoService;
 import com.lxl.xiaomi.service.GoodsService;
 import com.lxl.xiaomi.service.impl.GoodsServiceImpl;
 import com.lxl.xiaomi.utils.StringUtils;
@@ -24,6 +27,7 @@ import java.io.IOException;
 @WebServlet(name = "GoodsServlet", urlPatterns = "/goodsservlet")
 public class GoodsServlet extends BaseServlet {
     GoodsService goodsService = new GoodsServiceImpl();
+    GoodsDtoService goodsDtoService = new GoodsDtoServiceImpl();
 
 
     public String getGoodsListByTypeId(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -69,7 +73,10 @@ public class GoodsServlet extends BaseServlet {
 
     public String getGoodsById(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String id = req.getParameter("id");
-
-        return "";
+//        Goods goods = goodsService.queryById(id);
+//        req.getSession().setAttribute("goods", goods);
+        GoodsDto goodsDto = goodsDtoService.queryById(id);
+        req.getSession().setAttribute("goods", goodsDto);
+        return "redirect:/goodsDetail.jsp";
     }
 }

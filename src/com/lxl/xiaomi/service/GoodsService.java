@@ -18,4 +18,6 @@ public interface GoodsService {
 
 
     PageBean<Goods> queryPageByTypeId(int pn, int ps, String typeId);
+
+    Goods queryById(String id);
 }

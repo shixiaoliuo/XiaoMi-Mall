@@ -33,4 +33,9 @@ public class GoodsServiceImpl implements GoodsService {
         pageBean.setStartPage(pn);
         return pageBean;
     }
+
+    @Override
+    public Goods queryById(String id) {
+        return goodsDao.selectById(id);
+    }
 }

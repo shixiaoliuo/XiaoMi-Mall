@@ -25,8 +25,10 @@ public class GoodsTypeServlet extends BaseServlet {
     GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
 
     public void goodstypelist(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<GoodsType> goodsTypes = goodsTypeService.queryList();
+//        List<GoodsType> goodsTypes = goodsTypeService.queryList();
+        List<GoodsType> goodsTypes = goodsTypeService.queryListByLevel(1);
         String s = JSON.toJSONString(goodsTypes);
+        resp.setContentType("application/json;charset=utf-8");
         resp.getWriter().write(s);
     }
 

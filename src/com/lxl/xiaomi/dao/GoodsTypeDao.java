@@ -14,4 +14,8 @@ import java.util.List;
  */
 public interface GoodsTypeDao {
     List<GoodsType> selectAll();
+
+    List<GoodsType> selectByLevel(int level);
+
+    GoodsType selectByTypeId(Integer typeid);
 }

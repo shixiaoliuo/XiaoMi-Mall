@@ -4,6 +4,7 @@ import com.lxl.xiaomi.dao.GoodsDao;
 import com.lxl.xiaomi.entity.Goods;
 import com.lxl.xiaomi.utils.DruidUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
@@ -36,6 +37,17 @@ public class GoodsDaoImpl implements GoodsDao {
         String sql = "select count(*) from tb_goods where typeid=?;";
         try {
             return queryRunner.query(sql, new ScalarHandler<>(),typeId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Goods selectById(String id) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "select * from tb_goods where id=?;";
+        try {
+            return queryRunner.query(sql,new BeanHandler<>(Goods.class),id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
