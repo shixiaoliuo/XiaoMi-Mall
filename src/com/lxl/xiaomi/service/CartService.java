@@ -14,4 +14,8 @@ import java.util.List;
  */
 public interface CartService {
     List<Cart> queryList();
+
+    boolean add(Integer id, Integer goodsId, Integer number);
+
+//    Map<Car> queryMap();
 }

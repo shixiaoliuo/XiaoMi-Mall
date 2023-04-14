@@ -20,5 +20,5 @@ public interface GoodsService {
 
     PageBean<Goods> queryPageByTypeId(int pn, int ps, String where, ArrayList<Object> params);
 
-    Goods queryById(String id);
+    Goods queryById(Integer id);
 }

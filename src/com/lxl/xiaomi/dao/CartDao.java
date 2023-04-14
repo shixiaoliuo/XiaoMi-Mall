@@ -14,4 +14,12 @@ import java.util.List;
  */
 public interface CartDao {
     List<Cart> selectAll();
+
+    List<Cart> selectById(Integer id);
+
+    int insert(Cart cart);
+
+    Cart selectOne(Integer id,Integer pid);
+
+    int update(Cart cart);
 }

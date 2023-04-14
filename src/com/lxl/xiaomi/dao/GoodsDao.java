@@ -20,5 +20,5 @@ public interface GoodsDao {
 
     long selectCount(String where, ArrayList<Object> params);
 
-    Goods selectById(String id);
+    Goods selectById(Integer id);
 }

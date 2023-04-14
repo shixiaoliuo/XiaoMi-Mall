@@ -11,5 +11,5 @@ import com.lxl.xiaomi.entity.GoodsDto;
  * Version : 1.0
  */
 public interface GoodsDtoService {
-    GoodsDto queryById(String id);
+    GoodsDto queryById(Integer id);
 }

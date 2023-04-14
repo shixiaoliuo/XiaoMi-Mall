@@ -62,7 +62,7 @@
 			  	 	<li><a href="${pageContext.request.contextPath }/goodsservlet?method=getGoodsListByTypeId&pageNum=${pageBean.pageNum-1}&pageSize=${pageBean.pageSize}&typeId=${typeId}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
 			  	</c:if>
 
-			    <c:forEach var="pn" begin="${pageBean.startPage }" end="${pageBean.pageCount }" step="1">
+			    <c:forEach var="pn" begin="${pageBean.startPage }" end="${pageBean.endPage }" step="1">
 			    	<c:if test="${pn==pageBean.pageNum }">
 			    		<li class="active"><a href="#">${pn }<span class="sr-only">(current)</span></a></li>
 			    	</c:if>

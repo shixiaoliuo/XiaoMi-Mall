@@ -4,11 +4,11 @@ import com.lxl.xiaomi.dao.CartDao;
 import com.lxl.xiaomi.entity.Cart;
 import com.lxl.xiaomi.utils.DruidUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Project : Xiaomi Mall
@@ -24,7 +24,53 @@ public class CartDaoImpl implements CartDao {
         QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from tb_cart;";
         try {
-            return queryRunner.query(sql,new BeanListHandler<>(Cart.class));
+            return queryRunner.query(sql, new BeanListHandler<>(Cart.class));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Cart> selectById(Integer id) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "select * from tb_cart where id=?;";
+        try {
+            return queryRunner.query(sql, new BeanListHandler<>(Cart.class), id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int insert(Cart cart) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "insert into tb_cart values(?,?,?,?);";
+        Object[] params = {cart.getId(), cart.getPid(), cart.getNum(), cart.getMoney()};
+        try {
+            return queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Cart selectOne(Integer id, Integer pid) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "select * from tb_cart where id=? and pid=?;";
+        try {
+            return queryRunner.query(sql, new BeanHandler<>(Cart.class), id, pid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int update(Cart cart) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "update tb_cart set num=num+1 where id=? and  pid=?";
+        Object[] params = {cart.getId(), cart.getPid()};
+        try {
+            return queryRunner.update(sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

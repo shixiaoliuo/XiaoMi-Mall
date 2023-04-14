@@ -37,7 +37,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Goods queryById(String id) {
+    public Goods queryById(Integer id) {
         return goodsDao.selectById(id);
     }
 }

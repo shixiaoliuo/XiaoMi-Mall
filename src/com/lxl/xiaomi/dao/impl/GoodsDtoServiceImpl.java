@@ -19,7 +19,7 @@ public class GoodsDtoServiceImpl implements GoodsDtoService {
     GoodsDao goodsDao = new GoodsDaoImpl();
     GoodsTypeDao goodsTypeDao = new GoodsTypeDaoImpl();
     @Override
-    public GoodsDto queryById(String id) {
+    public GoodsDto queryById(Integer id) {
         Goods goods = goodsDao.selectById(id);
         GoodsType goodsType = goodsTypeDao.selectByTypeId(goods.getTypeid());
         GoodsDto goodsDto = new GoodsDto();

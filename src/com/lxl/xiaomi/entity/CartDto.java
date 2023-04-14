@@ -10,18 +10,19 @@ import java.math.BigDecimal;
 /**
  * Project : Xiaomi Mall
  * Package : com.lxl.xiaomi.entity
- * Description : Cart
+ * Description : CartDto
  * Author : LiuXinLei
- * createDate : 2023/4/13 9:27
+ * createDate : 2023/4/14 14:12
  * Version : 1.0
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class Cart {
+public class CartDto {
     private Integer id;
     private Integer pid;
     private Integer num;
     private BigDecimal money;
+    private Goods goods;
 }

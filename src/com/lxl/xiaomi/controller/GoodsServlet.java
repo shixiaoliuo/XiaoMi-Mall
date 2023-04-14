@@ -44,7 +44,7 @@ public class GoodsServlet extends BaseServlet {
         String pageSize = req.getParameter("pageSize");
 
         int pn = 1;//默认值
-        int ps = 18;//默认值
+        int ps = 8;//默认值
         try {
             if (!StringUtils.isEmpty(pageNum)) {
                 pn = Integer.parseInt(pageNum);
@@ -79,9 +79,11 @@ public class GoodsServlet extends BaseServlet {
         }
         if (where.length() > 0) {
             where.replace(0, 3, "where");
+        } else {
+            return "forword:/index.jsp";
         }
 
-        PageBean<Goods> pageBean = goodsService.queryPageByTypeId(pn, ps, where.toString(),params);
+        PageBean<Goods> pageBean = goodsService.queryPageByTypeId(pn, ps, where.toString(), params);
 
 
 //        resp.getWriter().write(JSON.toJSONString(pageBean));
@@ -96,7 +98,7 @@ public class GoodsServlet extends BaseServlet {
         String id = req.getParameter("id");
 //        Goods goods = goodsService.queryById(id);
 //        req.getSession().setAttribute("goods", goods);
-        GoodsDto goodsDto = goodsDtoService.queryById(id);
+        GoodsDto goodsDto = goodsDtoService.queryById(Integer.valueOf(id));
         req.getSession().setAttribute("goods", goodsDto);
         return "redirect:/goodsDetail.jsp";
     }

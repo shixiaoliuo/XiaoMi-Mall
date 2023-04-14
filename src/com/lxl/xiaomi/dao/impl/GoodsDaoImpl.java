@@ -44,7 +44,7 @@ public class GoodsDaoImpl implements GoodsDao {
     }
 
     @Override
-    public Goods selectById(String id) {
+    public Goods selectById(Integer id) {
         QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from tb_goods where id=?;";
         try {

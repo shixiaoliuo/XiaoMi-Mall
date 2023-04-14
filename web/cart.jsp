@@ -17,7 +17,7 @@
     <script type="text/javascript">
         function pNum(pid, p, no) {
             $.ajax({
-                url: "cartservlet?method=addCartAjax&goodsId=" + pid + "&number=1",
+                url: "cartservlet?method=addCartAjax&goodsId=" + pid + "&num=1",
                 method: "get",
                 success: function () {
                     location.href = "cartservlet?method=getCart";
@@ -39,7 +39,7 @@
                 }
             }
             $.ajax({
-                url: "cartservlet?method=addCartAjax&goodsId=" + pid + "&number=" + num,
+                url: "cartservlet?method=addCartAjax&goodsId=" + pid + "&num=" + num,
                 method: "get",
                 success: function () {
                     location.href = "cartservlet?method=getCart";
@@ -53,7 +53,7 @@
         function deleteCart(pid) {
             if (confirm("确认要删除吗")) {
                 $.ajax({
-                    url: "cartservlet?method=addCartAjax&goodsId=" + pid + "&number=0",
+                    url: "cartservlet?method=addCartAjax&goodsId=" + pid + "&num=0",
                     method: "get",
                     success: function () {
                         location.href = "cartservlet?method=getCart";
@@ -99,33 +99,35 @@
                     <th>操作</th>
                 </tr>
                 <c:set value="0" var="sum"></c:set>
-                <c:forEach items="${cart.map}" var="c" varStatus="i">
+
+
+                <c:forEach items="${cart}" var="c" varStatus="i">
                     <tr>
                         <th>${i.count}</th>
-                        <th>${c.value.goods.name}</th>
-                        <th>${c.value.goods.price}</th>
+                        <th>${c.goods.name}</th>
+                        <th>${c.goods.price}</th>
                         <th width="100px">
                             <div class="input-group">
 		 						<span class="input-group-btn">
 		 							<button class="btn btn-default" type="button"
-                                            onclick="mNum(${c.value.goods.id},${c.value.goods.price},${i.count})">-</button>
+                                            onclick="mNum(${c.goods.id},${c.goods.price},${i.count})">-</button>
 		 						</span>
                                 <input type="text" class="form-control" id="num_count${i.count}"
-                                       value="${c.value.number}" readonly="readonly" style="width:40px">
+                                       value="${c.num}" readonly="readonly" style="width:40px">
                                 <span class="input-group-btn">
 		 							<button class="btn btn-default" type="button"
-                                            onclick="pNum(${c.value.goods.id},${c.value.goods.price},${i.count})">+</button>
+                                            onclick="pNum(${c.goods.id},${c.goods.price},${i.count})">+</button>
 		 						</span>
                             </div>
                         </th>
-                        <th>¥&nbsp;${c.value.money }</th>
+                        <th>¥&nbsp;${c.money }</th>
                         <th>
-                            <button type="button" class="btn btn-default" onclick="deleteCart(${c.value.goods.id})">
+                            <button type="button" class="btn btn-default" onclick="deleteCart(${c.goods.id})">
                                 删除
                             </button>
                         </th>
                     </tr>
-                    <c:set var="sum" value="${sum+c.value.money}"></c:set>
+                    <c:set var="sum" value="${sum+c.money}"></c:set>
                 </c:forEach>
             </table>
         </div>
