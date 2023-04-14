@@ -66,4 +66,10 @@ public class GoodsServlet extends BaseServlet {
 
         return "redirect:/goodsList.jsp";
     }
+
+    public String getGoodsById(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String id = req.getParameter("id");
+
+        return "";
+    }
 }

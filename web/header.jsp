@@ -38,7 +38,7 @@
        			<c:if test="${not empty user}">
        				<a href="userAddress?flag=show" id="a_top">${user.username}</a>
        				<li>|</li>
-       				<a href="userservlet?method=logOut" id="a_top">注销</a>
+       				<a href="userservlet?method=logOut" id="a_top">登出</a>
        				<li>|</li>
        				<a href="getOrderList" id="a_top">我的订单</a>
        				<li>|</li>
