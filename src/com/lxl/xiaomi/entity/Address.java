@@ -1,6 +1,8 @@
 package com.lxl.xiaomi.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Project : Xiaomi Mall
@@ -11,6 +13,8 @@ import lombok.Data;
  * Version : 1.0
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
     private Integer id;
     private String detail;

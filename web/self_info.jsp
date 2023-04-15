@@ -96,7 +96,7 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-sm-2 control-label">收件人</label>
+												<label class="col-sm-2 control-label">详细地址</label>
 												<div class="col-sm-10">
 													<input type="text" name="detail" class="form-control" value="${address.detail}">
 												</div>

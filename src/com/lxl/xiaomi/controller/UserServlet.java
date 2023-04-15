@@ -1,8 +1,11 @@
 package com.lxl.xiaomi.controller;
 
 import cn.dsna.util.images.ValidateCode;
+import com.lxl.xiaomi.entity.Address;
 import com.lxl.xiaomi.entity.User;
+import com.lxl.xiaomi.service.AddressService;
 import com.lxl.xiaomi.service.UserService;
+import com.lxl.xiaomi.service.impl.AddressServiceImpl;
 import com.lxl.xiaomi.service.impl.UserServiceImpl;
 import com.lxl.xiaomi.utils.Base64Utils;
 import com.lxl.xiaomi.utils.EmailUtils;
@@ -15,6 +18,8 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.rmi.server.UID;
+import java.util.List;
 
 /**
  * Project : Xiaomi Mall
@@ -27,6 +32,8 @@ import java.lang.reflect.Method;
 @WebServlet(name = "UserServlet", urlPatterns = "/userservlet")
 public class UserServlet extends BaseServlet {
     UserService userService = new UserServiceImpl();
+
+    AddressService addressService = new AddressServiceImpl();
 
     /**
      * 注册
@@ -188,8 +195,59 @@ public class UserServlet extends BaseServlet {
      * @throws IOException
      */
     public String getAddress(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        return "redirect:/";
+        User user = (User) req.getSession().getAttribute("user");
+        Integer id = user.getId();
+        List<Address> addresses = addressService.queryById(id);
+        req.getSession().setAttribute("addList", addresses);
+        return "redirect:/self_info.jsp";
     }
 
+    public String addAddress(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //name phone detail
+        req.setCharacterEncoding("utf-8");
+        User user = (User) req.getSession().getAttribute("user");
+        Integer id = user.getId();
+        String name = req.getParameter("name");
+        String phone = req.getParameter("phone");
+        String detail = req.getParameter("detail");
+        Address address = new Address(0, detail, name, phone, id, 0);
+        if (!StringUtils.isEmpty(name, phone, detail)) {
+            addressService.add(address);
+        }
+        getAddress(req, resp);
+        return "redirect:/self_info.jsp";
+    }
+
+    //    defaultAddress&id=7
+    public String defaultAddress(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User user = (User) req.getSession().getAttribute("user");
+        Integer uid = user.getId();
+        String id = req.getParameter("id");
+        addressService.setDefault(Integer.valueOf(id), uid);
+        getAddress(req, resp);
+        return "redirect:/self_info.jsp";
+    }
+
+    public String updateAddress(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User user = (User) req.getSession().getAttribute("user");
+        Integer uid = user.getId();
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        Integer level = Integer.valueOf(req.getParameter("level"));
+        String name = req.getParameter("name");
+        String phone = req.getParameter("phone");
+        String detail = req.getParameter("detail");
+        Address address = new Address(id, detail, name, phone, uid, level);
+        addressService.update(address);
+        getAddress(req, resp);
+        return "redirect:/self_info.jsp";
+    }
+
+    //deleteAddress&id=7
+    public String deleteAddress(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        addressService.removeById(id);
+        getAddress(req, resp);
+        return "redirect:/self_info.jsp";
+    }
 
 }

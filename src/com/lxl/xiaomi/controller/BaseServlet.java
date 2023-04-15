@@ -43,7 +43,9 @@ public class BaseServlet extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + url);
                 } else if (url.startsWith("forword")) {
                     url = url.substring(url.indexOf(":") + 1);
-                    req.getRequestDispatcher(url);
+                    req.getRequestDispatcher(url).forward(req, resp);
+                } else {
+                    req.getRequestDispatcher(url).forward(req, resp);
                 }
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {

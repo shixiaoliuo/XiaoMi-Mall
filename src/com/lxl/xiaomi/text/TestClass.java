@@ -1,10 +1,14 @@
 package com.lxl.xiaomi.text;
 
+import com.lxl.xiaomi.dao.AddressDao;
+import com.lxl.xiaomi.dao.impl.AddressDaoImpl;
+import com.lxl.xiaomi.entity.Address;
 import com.lxl.xiaomi.service.UserService;
 import com.lxl.xiaomi.service.impl.UserServiceImpl;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -39,4 +43,15 @@ public class TestClass {
         Integer countByName = userService.queryCountByName("jjl");
         System.out.println(countByName);
     }
+
+
+//    @Test void defaultAddress(){
+//        AddressDao addressDao = new AddressDaoImpl();
+//        List<Address> addresses = addressDao.selectDefault(1);
+//        for (Address address : addresses) {
+//            Integer nid = address.getId();
+//            int level = 1;
+//            addressDao.updateLevel(level, id, nid);
+//        }
+//    }
 }
