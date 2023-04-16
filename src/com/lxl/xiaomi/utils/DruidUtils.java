@@ -4,6 +4,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -16,6 +18,9 @@ import java.util.Properties;
  */
 public class DruidUtils{
     private static DruidDataSource dataSource;
+
+    private static ThreadLocal<Connection> threadLocal=new ThreadLocal<>();
+
 
     static {
         try {
@@ -31,5 +36,46 @@ public class DruidUtils{
 
     public static DataSource getDataSource() {
         return dataSource;
+    }
+
+    public static Connection getConnection(){
+        try {
+            Connection conn = threadLocal.get();
+            if(conn==null){
+                conn=dataSource.getConnection();
+                threadLocal.set(conn);
+            }
+            return conn;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //事务有关的方法
+    public static void begin() throws SQLException {
+        Connection conn = getConnection();
+        if (conn != null) {
+            conn.setAutoCommit(false);
+        }
+    }
+    public static void commit() throws SQLException{
+        Connection conn = getConnection();
+        if (conn != null) {
+            conn.commit();
+        }
+    }
+    public static void rollback() throws SQLException{
+        Connection conn = getConnection();
+        if (conn != null) {
+            conn.rollback();
+        }
+    }
+    public static void close() throws SQLException{
+        Connection conn = getConnection();
+        if (conn != null) {
+            conn.close();
+            threadLocal.remove();
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.lxl.xiaomi.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +17,8 @@ import java.util.Date;
  * Version : 1.0
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
     private String id;
     private Integer uid;

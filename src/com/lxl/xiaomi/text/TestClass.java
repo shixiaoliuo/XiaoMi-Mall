@@ -5,6 +5,7 @@ import com.lxl.xiaomi.dao.impl.AddressDaoImpl;
 import com.lxl.xiaomi.entity.Address;
 import com.lxl.xiaomi.service.UserService;
 import com.lxl.xiaomi.service.impl.UserServiceImpl;
+import com.lxl.xiaomi.utils.SnowflakeIdWorker;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -45,13 +46,11 @@ public class TestClass {
     }
 
 
-//    @Test void defaultAddress(){
-//        AddressDao addressDao = new AddressDaoImpl();
-//        List<Address> addresses = addressDao.selectDefault(1);
-//        for (Address address : addresses) {
-//            Integer nid = address.getId();
-//            int level = 1;
-//            addressDao.updateLevel(level, id, nid);
-//        }
-//    }
+    @Test
+    public void defaultAddress() {
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1, 1);
+        long l = idWorker.generateId();
+        System.out.println(l);
+        System.out.println(String.valueOf(l).length());
+    }
 }

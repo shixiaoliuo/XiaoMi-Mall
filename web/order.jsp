@@ -18,6 +18,7 @@
 			location.href = "orderservlet?method=addOrder&aid="+$("#address").val();
 		})
 	})
+
 </script>
 </head>
 <body style="background-color:#f5f5f5">
@@ -35,25 +36,25 @@
  					<th>价格</th>
  					<th>数量</th>
  					<th>小计</th>
- 					
+
  				</tr>
  				<c:set value="0" var="sum"></c:set>
- 				<c:forEach items="${cart.map}" var="entry" varStatus="i">
+ 				<c:forEach items="${cart}" var="entry" varStatus="i">
 	 				<tr>
 	 					<th>${i.count}</th>
-	 					<th>${entry.value.goods.name}</th>
-	 					<th>${entry.value.goods.price}</th>
-	 					<th>${entry.value.number}</th>
-	 					<th>${entry.value.money}</th>
+	 					<th>${entry.goods.name}</th>
+	 					<th>${entry.goods.price}</th>
+	 					<th>${entry.num}</th>
+	 					<th>${entry.money}</th>
 	 				</tr>
-	 				<c:set var="sum" value="${sum+entry.value.money}"></c:set>
+	 				<c:set var="sum" value="${sum+entry.money}"></c:set>
  				</c:forEach>
  				<tr>
  				 <td colspan="5">
  				 	<h5>收货地址</h5>
  				 	<select id="address" style="width:60%" class="form-control">
  				 		<c:forEach items="${addList}" var="a" varStatus="ai">
- 				 			
+
  				 			<option value="${a.id}" ${a.level==1?"selected":"" } >${a.name}&nbsp;&nbsp;${a.phone}&nbsp;&nbsp;${a.detail}</option>
  				 		</c:forEach>
  				 	</select>
@@ -67,7 +68,7 @@
 	</div>
 	<hr>
 	<div class="row">
-		<div style="margin-left: 40px;">	  
+		<div style="margin-left: 40px;">
 	            <h4>商品金额总计：<span id="total" class="text-danger"><b>￥&nbsp;&nbsp;${sum}</b></span></h4>
 		</div>
 	</div>
@@ -77,8 +78,8 @@
 	     </div>
 	</div>
 </div>
-	
-    
+
+
 <!-- 底部 -->
 <%@ include file="footer.jsp"%>
 

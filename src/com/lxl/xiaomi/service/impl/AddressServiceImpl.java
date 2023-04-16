@@ -59,4 +59,9 @@ public class AddressServiceImpl implements AddressService {
         addressDao.deleteById(id);
         return false;
     }
+
+    @Override
+    public List<Address> queryByUid(Integer id) {
+        return addressDao.selectByUid(id);
+    }
 }

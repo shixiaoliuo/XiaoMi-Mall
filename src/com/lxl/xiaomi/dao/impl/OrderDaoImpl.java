@@ -28,4 +28,16 @@ public class OrderDaoImpl implements OrderDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int insert(Order order) {
+        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "insert into tb_order values(?,?,?,?,?,?);";
+        Object[] params = {order.getId(), order.getUid(), order.getMoney(), order.getStatus(), order.getTime(), order.getAid()};
+        try {
+            return queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

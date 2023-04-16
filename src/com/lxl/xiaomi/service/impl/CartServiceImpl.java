@@ -47,4 +47,18 @@ public class CartServiceImpl implements CartService {
         }
         return false;
     }
+
+    @Override
+    public List<Cart> queryByUid(Integer id) {
+        return cartDao.selectById(id);
+    }
+
+    @Override
+    public boolean delete(Integer uid) {
+        int i = cartDao.deleteById(uid);
+        if (i > 0) {
+            return true;
+        }
+        return false;
+    }
 }

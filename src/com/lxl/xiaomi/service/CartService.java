@@ -17,5 +17,10 @@ public interface CartService {
 
     boolean add(Integer id, Integer goodsId, Integer number);
 
+    List<Cart> queryByUid(Integer id);
+
+    boolean delete(Integer uid);
+
+
 //    Map<Car> queryMap();
 }

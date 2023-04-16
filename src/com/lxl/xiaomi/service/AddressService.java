@@ -22,4 +22,6 @@ public interface AddressService {
     boolean update(Address address);
 
     boolean removeById(Integer id);
+
+    List<Address> queryByUid(Integer id);
 }

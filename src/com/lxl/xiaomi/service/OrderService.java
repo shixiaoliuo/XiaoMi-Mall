@@ -1,5 +1,6 @@
 package com.lxl.xiaomi.service;
 
+import com.lxl.xiaomi.entity.Cart;
 import com.lxl.xiaomi.entity.Order;
 
 import java.util.List;
@@ -14,4 +15,6 @@ import java.util.List;
  */
 public interface OrderService {
     List<Order> queryList();
+
+    boolean add(Order order, List<Cart> cartList);
 }
