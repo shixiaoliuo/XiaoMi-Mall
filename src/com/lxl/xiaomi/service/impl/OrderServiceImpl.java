@@ -42,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
             }
             CartService cartService = new CartServiceImpl();
             cartService.delete(order.getUid());
+//            int i = 10 / 0;
             DruidUtils.commit();
             return true;
         } catch (Exception e) {
@@ -59,5 +60,19 @@ public class OrderServiceImpl implements OrderService {
             return false;
         }
 
+    }
+
+    @Override
+    public Order queryById(String oid) {
+        return orderDao.selectById(oid);
+    }
+
+    @Override
+    public boolean updateStatus(Order order) {
+        int i = orderDao.updateStatus(order);
+        if (i > 0) {
+            return true;
+        }
+        return false;
     }
 }

@@ -26,7 +26,7 @@
 				    </h3>
 				  </div>
 				  <div class="panel-body">
-				  	<form  action="http://ceshi.chenjunbo.xin/payment/weixinpay" method="get">
+				  	<form  action="http://weixin.chenjunbo.xin/payment/weixinpay" method="get">
 					<table class="table table-bordered table-striped table-hover">
 						<tr>
 							<td colspan="1">订单号:</td>
@@ -45,7 +45,7 @@
 							<td colspan="1">商品介绍:</td>
 							<td colspan="3"><input type="text" class="form-control" name="body" value="${cart[0].goods.name}" readonly="readonly">
 							<!-- 设置 程序回传到的链接地址 -->
-							<input type="hidden" class="form-control" name="url" value="http://localhost:8080/xiaomi2/paySuccess">
+							<input type="hidden" class="form-control" name="url" value="http://localhost:8080/paySuccess">
 							</td>
 						</tr>
 

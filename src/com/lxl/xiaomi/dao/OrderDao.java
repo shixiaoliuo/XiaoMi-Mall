@@ -16,4 +16,9 @@ public interface OrderDao {
     List<Order> selectAll();
 
     int insert(Order order);
+
+    Order selectById(String oid);
+
+    int updateStatus(Order order);
+
 }

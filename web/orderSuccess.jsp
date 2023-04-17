@@ -28,13 +28,13 @@
 				<h4>订单号:${order.id }</h4>
 				<h4>订单总金额:${order.money }</h4>
 				<span class="h2">立即支付</span>
-				<a href="${pageContext.request.contextPath}/pay.jsp?oid=${order.id }&omoney=${order.money }" class="btn btn-warning">易宝支付</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="${pageContext.request.contextPath}/alipay?oid=${order.id }&money=${order.money}" class="btn btn-warning">支付宝支付</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="${pageContext.request.contextPath}/payWeixin.jsp?oid=${order.id }" class="btn btn-success">微信支付</a>
 			</div>
 		</div>
-		
+
 	</div>
-	
+
 </div>
 
 <%@ include file="footer.jsp" %>

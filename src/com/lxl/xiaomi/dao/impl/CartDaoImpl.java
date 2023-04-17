@@ -8,6 +8,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -79,10 +80,12 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     public int deleteById(Integer id) {
-        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner();
         String sql = "delete from tb_cart where id=?";
         try {
-            return queryRunner.update(sql, id);
+            Connection connection = null;
+            connection = DruidUtils.getConnection();
+            return queryRunner.update(connection, sql, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

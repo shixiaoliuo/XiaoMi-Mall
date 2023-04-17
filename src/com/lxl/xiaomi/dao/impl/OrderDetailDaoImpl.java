@@ -5,6 +5,7 @@ import com.lxl.xiaomi.entity.OrderDetail;
 import com.lxl.xiaomi.utils.DruidUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -18,11 +19,13 @@ import java.sql.SQLException;
 public class OrderDetailDaoImpl implements OrderDetailDao {
     @Override
     public int insert(OrderDetail orderDetail) {
-        QueryRunner queryRunner = new QueryRunner(DruidUtils.getDataSource());
+        QueryRunner queryRunner = new QueryRunner();
         String sql = "insert into tb_orderdetail values(0,?,?,?,?);";
         Object[] params = {orderDetail.getOid(), orderDetail.getPid(), orderDetail.getNum(), orderDetail.getMoney()};
         try {
-            return queryRunner.update(sql, params);
+            Connection connection = null;
+            connection = DruidUtils.getConnection();
+            return queryRunner.update(connection, sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

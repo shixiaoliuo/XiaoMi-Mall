@@ -5,7 +5,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -16,10 +18,10 @@ import java.util.Properties;
  * createDate : 2023/4/13 9:17
  * Version : 1.0
  */
-public class DruidUtils{
+public class DruidUtils {
     private static DruidDataSource dataSource;
 
-    private static ThreadLocal<Connection> threadLocal=new ThreadLocal<>();
+    private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 
 
     static {
@@ -38,11 +40,11 @@ public class DruidUtils{
         return dataSource;
     }
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         try {
             Connection conn = threadLocal.get();
-            if(conn==null){
-                conn=dataSource.getConnection();
+            if (conn == null) {
+                conn = dataSource.getConnection();
                 threadLocal.set(conn);
             }
             return conn;
@@ -52,6 +54,30 @@ public class DruidUtils{
         return null;
     }
 
+    public static void closeAll(ResultSet resultSet, Statement statement, Connection connection) {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     //事务有关的方法
     public static void begin() throws SQLException {
         Connection conn = getConnection();
@@ -59,19 +85,22 @@ public class DruidUtils{
             conn.setAutoCommit(false);
         }
     }
-    public static void commit() throws SQLException{
+
+    public static void commit() throws SQLException {
         Connection conn = getConnection();
         if (conn != null) {
             conn.commit();
         }
     }
-    public static void rollback() throws SQLException{
+
+    public static void rollback() throws SQLException {
         Connection conn = getConnection();
         if (conn != null) {
             conn.rollback();
         }
     }
-    public static void close() throws SQLException{
+
+    public static void close() throws SQLException {
         Connection conn = getConnection();
         if (conn != null) {
             conn.close();

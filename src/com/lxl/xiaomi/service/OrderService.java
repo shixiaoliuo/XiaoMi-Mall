@@ -17,4 +17,8 @@ public interface OrderService {
     List<Order> queryList();
 
     boolean add(Order order, List<Cart> cartList);
+
+    Order queryById(String oid);
+
+    boolean updateStatus(Order order);
 }

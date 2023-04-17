@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -46,8 +47,8 @@ public class OrderServlet extends BaseServlet {
             List<Address> addList = addressService.queryByUid(user.getId());
 
             //4放入域中
-            req.setAttribute("cartList", cartList);
-            req.setAttribute("addList", addList);
+            req.getSession().setAttribute("cartList", cartList);
+            req.getSession().setAttribute("addList", addList);
             //5转发
             return "/order.jsp";
         } catch (Exception e) {
@@ -90,14 +91,16 @@ public class OrderServlet extends BaseServlet {
             }
             Order order = new Order(orderId, user.getId(), sum, "1", new Date(), Integer.parseInt(aid));
 
-            orderService.add(order, cartList);
-            request.getSession().setAttribute("order", order);
-//            request.setAttribute("cart", "");
-            return "/orderSuccess.jsp";
+            boolean add = orderService.add(order, cartList);
+            if (add) {
+                request.getSession().setAttribute("order", order);
+                return "/orderSuccess.jsp";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("msg", "提交订单失败");
             return "/message.jsp";
         }
+        return "/order.jsp";
     }
 }
